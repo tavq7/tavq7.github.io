@@ -1,0 +1,822 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Octavio — educador con 18 años de experiencia que ayuda a editoriales, escuelas y organizaciones educativas a integrar la IA de forma práctica.">
+<title>Octavio — IA para organizaciones educativas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bitter:wght@500;600;700&family=Public+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Caveat:wght@500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FBFAF6;
+  --card:#FFFFFF;
+  --ink:#20242C;
+  --muted:#646A73;
+  --green:#20537A;        /* primary accent: editorial ink blue (var name kept for brevity) */
+  --green-soft:#EBF2F8;
+  --blue-deep:#173B57;
+  --red:#C0402B;
+  --hl:#FFE873;
+  --line:#E3E1D6;
+  --radius:14px;
+  --maxw:1080px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{
+  background:var(--paper);color:var(--ink);
+  font:400 17px/1.65 "Public Sans",system-ui,sans-serif;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3{font-family:"Bitter",Georgia,serif;line-height:1.2;font-weight:700}
+a{color:var(--green)}
+img{max-width:100%}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 22px}
+.eyebrow{
+  font:600 12.5px/1 "Public Sans",sans-serif;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--green);margin-bottom:14px;
+}
+.note{font-family:"Caveat",cursive;font-size:22px;color:var(--red);line-height:1.25}
+.hl{
+  background:linear-gradient(transparent 55%, var(--hl) 55%, var(--hl) 92%, transparent 92%);
+  padding:0 2px;
+}
+.finetech{font-size:13px;color:var(--muted);margin-top:14px;border-top:1px dashed var(--line);padding-top:10px}
+.finetech b{font-weight:600;color:var(--muted)}
+:focus-visible{outline:3px solid var(--green);outline-offset:2px;border-radius:4px}
+
+/* ---------- top bar ---------- */
+.topbar{
+  position:sticky;top:0;z-index:50;background:rgba(250,250,247,.92);backdrop-filter:blur(8px);
+  border-bottom:1px solid var(--line);
+}
+.topbar .wrap{display:flex;align-items:center;justify-content:space-between;height:60px}
+.brand{font-family:"Bitter",serif;font-weight:700;font-size:19px;color:var(--ink);text-decoration:none}
+.brand span{color:var(--green)}
+.topnav{display:flex;gap:22px;align-items:center}
+.topnav a{font-size:14.5px;font-weight:500;color:var(--ink);text-decoration:none}
+.topnav a:hover{color:var(--green)}
+.lang-btn{
+  border:1.5px solid var(--ink);background:transparent;border-radius:999px;
+  font:600 13px "Public Sans",sans-serif;padding:7px 14px;cursor:pointer;color:var(--ink)
+}
+.lang-btn:hover{background:var(--ink);color:var(--paper)}
+@media (max-width:760px){.topnav a{display:none}}
+
+/* ---------- hero ---------- */
+.hero{padding:74px 0 60px;border-bottom:1px solid var(--line)}
+.hero-grid{display:grid;grid-template-columns:1.25fr .75fr;gap:56px;align-items:start}
+@media (max-width:860px){.hero-grid{grid-template-columns:1fr}}
+.correction{margin-bottom:26px;font-family:"Bitter",serif;font-size:21px}
+.correction .wrong{
+  position:relative;color:var(--muted);display:inline;
+}
+.correction .wrong::after{
+  content:"";position:absolute;left:-1%;right:-1%;top:52%;height:2.5px;background:var(--red);
+  transform:rotate(-1.2deg);border-radius:2px;
+}
+.correction .fix{display:block;margin-top:10px;font-family:"Caveat",cursive;font-size:29px;color:var(--red);line-height:1.25}
+.hero h1{font-size:clamp(34px,4.6vw,52px);margin:6px 0 20px;letter-spacing:-.5px}
+.hero .lede{font-size:19px;color:#3d4139;max-width:56ch}
+.hero-cta{margin-top:30px;display:flex;gap:14px;flex-wrap:wrap}
+.btn{
+  display:inline-block;border-radius:999px;padding:13px 24px;font:600 15.5px "Public Sans",sans-serif;
+  text-decoration:none;cursor:pointer;border:1.5px solid var(--green);
+}
+.btn.primary{background:var(--green);color:#fff}
+.btn.primary:hover{background:#174a3f}
+.btn.ghost{color:var(--green);background:transparent}
+.btn.ghost:hover{background:var(--green-soft)}
+
+/* credential card, styled like a lesson-plan header */
+.cred-card{
+  background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  padding:26px 26px 20px;box-shadow:0 2px 10px rgba(34,38,31,.05);position:relative;
+}
+.cred-card::before{
+  content:"";position:absolute;inset:0 0 auto 0;height:6px;border-radius:var(--radius) var(--radius) 0 0;
+  background:var(--green);
+}
+.cred-card h3{font-size:16px;margin-bottom:14px;padding-top:6px}
+.cred-list{list-style:none}
+.cred-list li{
+  padding:9px 0;border-bottom:1px dashed var(--line);font-size:14.5px;display:flex;gap:10px;align-items:baseline;
+}
+.cred-list li:last-child{border-bottom:none}
+.cred-list b{font-weight:600;white-space:nowrap;color:var(--green)}
+.cred-note{margin-top:10px;text-align:right}
+
+/* ---------- sections ---------- */
+section{padding:70px 0;scroll-margin-top:72px}
+.section-head{max-width:62ch;margin-bottom:42px}
+.section-head h2{font-size:clamp(26px,3.4vw,36px);margin-bottom:12px}
+.section-head p{color:#3d4139;font-size:17.5px}
+
+/* problem cards */
+.cards{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+@media (max-width:820px){.cards{grid-template-columns:1fr}}
+.card{
+  background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  padding:28px;display:flex;flex-direction:column;
+}
+.card .prob{
+  font-family:"Bitter",serif;font-weight:600;font-size:20.5px;line-height:1.35;margin-bottom:14px;
+}
+.card .prob::before{
+  content:"“";color:var(--red);font-size:30px;line-height:0;vertical-align:-8px;margin-right:2px;
+}
+.card .prob::after{content:"”";color:var(--red)}
+.card p{font-size:15.8px;color:#3a3e36}
+.card .did{margin-bottom:10px}
+.card .result{
+  margin-top:auto;padding-top:14px;font-weight:500;
+}
+details.more{margin-top:12px}
+details.more summary{
+  cursor:pointer;list-style:none;display:inline-block;
+  font:600 14px "Public Sans",sans-serif;color:var(--green);
+  border-bottom:1.5px dashed var(--green);padding-bottom:1px;
+}
+details.more summary::-webkit-details-marker{display:none}
+details.more summary::before{content:"+ "}
+details.more[open] summary::before{content:"− "}
+details.more .moretext{margin-top:12px}
+details.more .moretext p{font-size:15.3px;color:#3a3e36;margin-bottom:8px}
+.card .result b{font-weight:700;color:var(--green)}
+
+/* ---------- demo ---------- */
+#demo{background:var(--green-soft);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.demo-grid{display:grid;grid-template-columns:.85fr 1.15fr;gap:46px;align-items:start}
+@media (max-width:860px){.demo-grid{grid-template-columns:1fr}}
+.chat{
+  background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  box-shadow:0 4px 18px rgba(30,92,79,.10);overflow:hidden;display:flex;flex-direction:column;
+}
+.chat-head{
+  background:var(--green);color:#fff;padding:14px 18px;font:600 14.5px "Public Sans",sans-serif;
+  display:flex;justify-content:space-between;align-items:center;gap:10px
+}
+.chat-head .sim{font-weight:500;font-size:12px;opacity:.85;border:1px solid rgba(255,255,255,.5);border-radius:999px;padding:3px 9px;white-space:nowrap}
+.chat-body{padding:18px;min-height:230px;display:flex;flex-direction:column;gap:12px}
+.msg{max-width:88%;padding:11px 15px;border-radius:14px;font-size:15px;line-height:1.55}
+.msg.user{align-self:flex-end;background:var(--green);color:#fff;border-bottom-right-radius:4px}
+.msg.bot{align-self:flex-start;background:#F1F1EA;border-bottom-left-radius:4px}
+.chips{padding:0 18px 18px;display:flex;flex-wrap:wrap;gap:9px}
+.chip{
+  border:1.5px solid var(--green);color:var(--green);background:#fff;border-radius:999px;
+  font:500 13.5px "Public Sans",sans-serif;padding:8px 14px;cursor:pointer;text-align:left
+}
+.chip:hover:not(:disabled){background:var(--green);color:#fff}
+.chip:disabled{opacity:.45;cursor:default}
+.demo-copy .note{margin-top:18px}
+.proof{margin-top:48px}
+.proof h3{font-size:21px;margin-bottom:6px}
+.proof .sub{font-size:15.5px;color:#3d4340;margin-bottom:20px;max-width:64ch}
+.proof-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+@media (max-width:900px){.proof-grid{grid-template-columns:1fr 1fr}}
+@media (max-width:620px){.proof-grid{grid-template-columns:1fr}}
+.proof-grid.two{grid-template-columns:repeat(2,1fr)}
+@media (max-width:620px){.proof-grid.two{grid-template-columns:1fr}}
+.proof-card{
+  display:block;background:var(--card);border:1px solid var(--line);border-radius:12px;
+  padding:16px 18px;text-decoration:none;color:var(--ink);
+  transition:border-color .15s, box-shadow .15s;
+}
+.proof-card:hover{border-color:var(--green);box-shadow:0 4px 14px rgba(32,83,122,.12)}
+.proof-card b{font-family:"Bitter",serif;font-size:15.5px;display:block;margin-bottom:5px;color:var(--green)}
+.proof-card span{font-size:13.8px;color:#4a4f57;line-height:1.5;display:block}
+.proof-card em{font-style:normal;font-size:12px;color:var(--muted);display:block;margin-top:8px;letter-spacing:.06em;text-transform:uppercase;font-weight:600}
+
+/* ---------- sectors ---------- */
+.sector-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:22px}
+@media (max-width:820px){.sector-grid{grid-template-columns:1fr}}
+.sector{
+  background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:26px;
+}
+.sector h3{font-size:19px;margin-bottom:6px}
+.sector .for{font-size:13px;color:var(--muted);margin-bottom:16px}
+.sector ul{list-style:none}
+.sector li{
+  padding:9px 0 9px 26px;position:relative;font-size:15.3px;border-bottom:1px dashed var(--line);
+}
+.sector li:last-child{border-bottom:none}
+.sector li::before{
+  content:"✓";position:absolute;left:2px;top:8px;color:var(--green);font-weight:700;
+}
+
+/* ---------- seminars ---------- */
+#seminars .split{display:grid;grid-template-columns:1fr 1fr;gap:46px;align-items:start}
+@media (max-width:860px){#seminars .split{grid-template-columns:1fr}}
+.topics{list-style:none;counter-reset:t}
+.topics li{
+  counter-increment:t;display:flex;gap:16px;padding:15px 0;border-bottom:1px solid var(--line);
+  font-size:16px;align-items:baseline;
+}
+.topics li::before{
+  content:counter(t,decimal-leading-zero);font-family:"Bitter",serif;font-weight:700;color:var(--red);
+  font-size:15px;min-width:30px;
+}
+.board{
+  background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:26px;
+}
+.board h3{font-size:17px;margin-bottom:8px}
+.board p{font-size:15.5px;color:#3a3e36;margin-bottom:12px}
+
+/* ---------- transfer (learned on the go) ---------- */
+#transfer{background:var(--card);border-top:1px solid var(--line)}
+.transfer-row{
+  display:grid;grid-template-columns:1.05fr 54px .95fr;gap:0 10px;align-items:stretch;
+  padding:30px 0;border-bottom:1px solid var(--line);
+}
+.transfer-row:last-of-type{border-bottom:none}
+@media (max-width:860px){.transfer-row{grid-template-columns:1fr}}
+.transfer-row h3{font-size:19px;margin-bottom:10px}
+.transfer-row .story p{font-size:15.6px;color:#3a3e36;margin-bottom:8px}
+.transfer-arrow{
+  display:flex;align-items:center;justify-content:center;
+  font-family:"Caveat",cursive;font-size:40px;color:var(--red);line-height:1;
+}
+@media (max-width:860px){.transfer-arrow{transform:rotate(90deg);padding:6px 0}}
+.transfer-mean{
+  background:var(--blue-deep);border-radius:var(--radius);
+  padding:22px 24px;align-self:center;
+  box-shadow:0 6px 20px rgba(23,59,87,.22);
+}
+.transfer-mean .lbl{
+  font:700 11.5px/1 "Public Sans",sans-serif;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--hl);display:block;margin-bottom:10px;
+}
+.transfer-mean p{font-size:15.6px;color:#F2F6FA}
+.transfer-row .rownote{margin-top:10px}
+
+/* ---------- about ---------- */
+#about{background:var(--card);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.about-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:46px;align-items:start}
+@media (max-width:860px){.about-grid{grid-template-columns:1fr}}
+.about-grid p{margin-bottom:14px;color:#33372f}
+.aside-note{
+  border-left:3px solid var(--hl);padding:4px 0 4px 18px;margin-top:10px;
+}
+.aside-note p{font-size:15px;color:var(--muted);margin:0}
+
+/* ---------- contact ---------- */
+#contact{text-align:center;padding:90px 0}
+#contact h2{font-size:clamp(28px,3.6vw,40px);margin-bottom:14px}
+#contact p{max-width:52ch;margin:0 auto 28px;color:#3d4139}
+footer{border-top:1px solid var(--line);padding:26px 0;font-size:13.5px;color:var(--muted)}
+footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap">
+    <a class="brand" href="#top">Octavio<span>.</span></a>
+    <nav class="topnav" aria-label="Navegación">
+      <a href="#work" data-es="Qué puedo hacer" data-en="What I can do">Qué puedo hacer</a>
+      <a href="#demo" data-es="Demostración" data-en="Live demo">Demostración</a>
+      <a href="#sectors" data-es="Para su sector" data-en="For your sector">Para su sector</a>
+      <a href="#seminars" data-es="Seminarios" data-en="Seminars">Seminarios</a>
+      <a href="#transfer" data-es="Sobre la marcha" data-en="On the go">Sobre la marcha</a>
+      <a href="#about" data-es="Sobre mí" data-en="About">Sobre mí</a>
+    </nav>
+    <button class="lang-btn" id="langBtn" type="button" aria-label="Switch to English">EN</button>
+  </div>
+</header>
+
+<main id="top">
+
+<!-- ================= HERO ================= -->
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <p class="eyebrow" data-es="Educador · Consultor en IA para educación" data-en="Educator · AI consultant for education">Educador · Consultor en IA para educación</p>
+
+      <div class="correction" aria-label="Ejemplo de traducción de lenguaje técnico a lenguaje claro">
+        <span class="wrong" data-es="Desarrollé un asistente RAG con recuperación semántica sobre un corpus editorial…"
+              data-en="I deployed a RAG assistant with semantic retrieval over a publishing corpus…">Desarrollé un asistente RAG con recuperación semántica sobre un corpus editorial…</span>
+        <span class="fix" data-es="Construí un asistente que responde al instante, y sin inventar, cualquier pregunta sobre sus libros."
+              data-en="I built an assistant that instantly answers any question about your books — without making things up.">Construí un asistente que responde al instante, y sin inventar, cualquier pregunta sobre sus libros.</span>
+      </div>
+
+      <h1 data-es="La IA se vuelve útil cuando alguien la traduce. Eso es lo que hago."
+          data-en="AI becomes useful when someone translates it. That is what I do.">La IA se vuelve útil cuando alguien la traduce. Eso es lo que hago.</h1>
+
+      <p class="lede"
+         data-es="Llevo 18 años frente a grupo enseñando inglés. Hoy uso esa misma experiencia para que editoriales, escuelas de idiomas y organizaciones educativas conviertan la IA en resultados concretos: docentes mejor preparados, familias mejor atendidas y materiales listos en horas, no semanas."
+         data-en="I have spent 18 years in the classroom teaching English. Today I use that same experience to help publishers, language schools and education organizations turn AI into concrete results: better-prepared teachers, better-served families, and materials ready in hours instead of weeks.">Llevo 18 años frente a grupo enseñando inglés. Hoy uso esa misma experiencia para que editoriales, escuelas de idiomas y organizaciones educativas conviertan la IA en resultados concretos: docentes mejor preparados, familias mejor atendidas y materiales listos en horas, no semanas.</p>
+
+      <div class="hero-cta">
+        <a class="btn primary" href="#demo" data-es="Ver una demostración" data-en="See a demonstration">Ver una demostración</a>
+        <a class="btn ghost" href="#contact" data-es="Conversemos" data-en="Let's talk">Conversemos</a>
+      </div>
+    </div>
+
+    <div class="cred-card" aria-label="Credenciales">
+      <h3 data-es="Ficha del facilitador" data-en="Facilitator profile">Ficha del facilitador</h3>
+      <ul class="cred-list">
+        <li><b data-es="Experiencia" data-en="Experience">Experiencia</b><span data-es="Docente de inglés desde 2008, niveles A1–C2" data-en="English teacher since 2008, levels A1–C2">Docente de inglés desde 2008, niveles A1–C2</span></li>
+        <li><b data-es="Certificaciones" data-en="Credentials">Certificaciones</b><span data-es="CELTA · Delta · CAM · TKT · Train the Trainer" data-en="CELTA · Delta · CAM · TKT · Train the Trainer">CELTA · Delta · CAM · TKT · Train the Trainer</span></li>
+        <li><b data-es="Especialidad" data-en="Specialty">Especialidad</b><span data-es="Preparación IELTS · formación docente · examinador oral" data-en="IELTS preparation · teacher training · oral examiner">Preparación IELTS · formación docente · examinador oral</span></li>
+        <li><b data-es="Idiomas" data-en="Languages">Idiomas</b><span data-es="Español e inglés — seminarios en ambos" data-en="Spanish and English — seminars in both">Español e inglés — seminarios en ambos</span></li>
+        <li><b data-es="Base" data-en="Based in">Base</b><span data-es="Ciudad de México · disponible en línea" data-en="Mexico City · available online">Ciudad de México · disponible en línea</span></li>
+      </ul>
+      <p class="note cred-note" data-es="— docente primero, tecnólogo después" data-en="— teacher first, technologist second">— docente primero, tecnólogo después</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PROBLEM CARDS ================= -->
+<section id="work">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow" data-es="Qué puedo hacer por su organización" data-en="What I can do for your organization">Qué puedo hacer por su organización</p>
+      <h2 data-es="Problemas que seguramente reconoce — y lo que ya construí para resolverlos"
+          data-en="Problems you will recognize — and what I have already built to solve them">Problemas que seguramente reconoce — y lo que ya construí para resolverlos</h2>
+      <p data-es="Cada uno de estos proyectos existe. No son ideas: son cosas que funcionan. Y ninguno me fue encargado: son propuestas que desarrollé por cuenta propia."
+         data-en="Every one of these projects exists. They are not ideas: they are things that work. And none of them was commissioned: they are proposals I developed on my own.">Cada uno de estos proyectos existe. No son ideas: son cosas que funcionan. Y ninguno me fue encargado: son propuestas que desarrollé por cuenta propia.</p>
+    </div>
+
+    <div class="cards">
+
+      <article class="card">
+        <h3 class="prob" data-es="Padres, alumnos, maestros y ejecutivos de ventas nos hacen las mismas preguntas todos los días."
+            data-en="Parents, students, teachers and sales executives ask us the same questions every day.">Padres, alumnos, maestros y ejecutivos de ventas nos hacen las mismas preguntas todos los días.</h3>
+        <p class="did" data-es="Como propuesta para University of Dayton Publishing, construí un asistente basado en tres de sus series — Brain Juice, Make Your Mark y iWorld — y justo por eso responde sin inventar a padres, alumnos, ejecutivos de ventas y docentes."
+           data-en="As a proposal for University of Dayton Publishing, I built an assistant based on three of their series — Brain Juice, Make Your Mark and iWorld — and precisely because of that, it answers parents, students, sales executives and teachers without making things up.">Como propuesta para University of Dayton Publishing, construí un asistente basado en tres de sus series — Brain Juice, Make Your Mark y iWorld — y justo por eso responde sin inventar a padres, alumnos, ejecutivos de ventas y docentes.</p>
+        <p class="result"><b data-es="Resultado:" data-en="Result:">Resultado:</b> <span class="hl" data-es="dudas atendidas 24/7 sin ocupar el tiempo de nadie." data-en="questions answered 24/7 without taking up anyone's time.">dudas atendidas 24/7 sin ocupar el tiempo de nadie.</span> <span data-es="Pruébelo abajo." data-en="Try it below.">Pruébelo abajo.</span></p>
+        <details class="more">
+          <summary data-es="Saber más" data-en="Learn more">Saber más</summary>
+          <div class="moretext">
+            <p data-es="La editorial no lo encargó: es un prototipo para proponer con hechos, no con promesas. Cualquier persona — un padre de familia, un alumno, un ejecutivo de ventas, un docente — puede preguntarle sobre contenidos, metodología o el uso del material, y recibe una respuesta clara basada únicamente en las fuentes oficiales."
+               data-en="The publisher didn't commission it: it's a prototype for proposing with facts, not promises. Anyone — a parent, a student, a sales executive, a teacher — can ask it about content, methodology or how to use the material, and gets a clear answer based only on the official sources.">La editorial no lo encargó: es un prototipo para proponer con hechos, no con promesas. Cualquier persona — un padre de familia, un alumno, un ejecutivo de ventas, un docente — puede preguntarle sobre contenidos, metodología o el uso del material, y recibe una respuesta clara basada únicamente en las fuentes oficiales.</p>
+            <p data-es="En términos técnicos es un «GPT personalizado»: una versión de ChatGPT que solo consulta los documentos que uno le entrega. La misma idea puede crecer hasta cubrir el catálogo completo de una editorial — lo que los ingenieros llaman un sistema RAG: un asistente que primero busca en sus documentos y luego responde con lo que encontró."
+               data-en="In technical terms it is a “custom GPT”: a version of ChatGPT that only consults the documents you hand it. The same idea can grow to cover a publisher's entire catalog — what engineers call a RAG system: an assistant that first searches your documents and then answers with what it found.">En términos técnicos es un «GPT personalizado»: una versión de ChatGPT que solo consulta los documentos que uno le entrega. La misma idea puede crecer hasta cubrir el catálogo completo de una editorial — lo que los ingenieros llaman un sistema RAG: un asistente que primero busca en sus documentos y luego responde con lo que encontró.</p>
+          </div>
+        </details>
+      </article>
+
+      <article class="card">
+        <h3 class="prob" data-es="Nuestros docentes quieren usar IA, pero no saben por dónde empezar."
+            data-en="Our teachers want to use AI, but don't know where to start.">Nuestros docentes quieren usar IA, pero no saben por dónde empezar.</h3>
+        <p class="did" data-es="Seminarios prácticos donde los docentes producen, no solo escuchan: salen con una clase lista, guías y pódcast hechos con sus propios documentos, y su propio asistente de enseñanza configurado."
+           data-en="Hands-on seminars where teachers produce instead of just listening: they leave with a ready lesson, guides and podcasts made from their own documents, and their own teaching assistant configured.">Seminarios prácticos donde los docentes producen, no solo escuchan: salen con una clase lista, guías y pódcast hechos con sus propios documentos, y su propio asistente de enseñanza configurado.</p>
+        <p class="result"><b data-es="Resultado:" data-en="Result:">Resultado:</b> <span class="hl" data-es="docentes usando las herramientas ese mismo día." data-en="teachers using the tools that same day.">docentes usando las herramientas ese mismo día.</span></p>
+        <details class="more">
+          <summary data-es="Saber más" data-en="Learn more">Saber más</summary>
+          <div class="moretext">
+            <p data-es="Trabajamos con herramientas como NotebookLM, ChatGPT, Claude o Gemini — o las que vengan después: el método sirve para todas. Cada taller incluye materiales completos: presentaciones, guías de instrucciones y cuestionarios listos para usar."
+               data-en="We work with tools like NotebookLM, ChatGPT, Claude or Gemini — or whatever comes next: the method works for all of them. Every workshop ships with complete materials: slides, prompt guides and ready-to-use questionnaires.">Trabajamos con herramientas como NotebookLM, ChatGPT, Claude o Gemini — o las que vengan después: el método sirve para todas. Cada taller incluye materiales completos: presentaciones, guías de instrucciones y cuestionarios listos para usar.</p>
+            <p data-es="Formato: de 1 hora a 2 días, presencial o por Zoom, en español o inglés."
+               data-en="Format: from 1 hour to 2 days, in person or over Zoom, in Spanish or English.">Formato: de 1 hora a 2 días, presencial o por Zoom, en español o inglés.</p>
+          </div>
+        </details>
+      </article>
+
+      <article class="card">
+        <h3 class="prob" data-es="Los interesados nos escriben a cualquier hora — y cuando respondemos, ya se enfriaron."
+            data-en="Prospects message us at all hours — and by the time we reply, they've gone cold.">Los interesados nos escriben a cualquier hora — y cuando respondemos, ya se enfriaron.</h3>
+        <p class="did" data-es="Construí un asistente en Telegram que conversa con los interesados en mis cursos de preparación para certificaciones de inglés, resuelve sus dudas y me entrega prospectos calificados — día y noche, desde una computadora del tamaño de una tarjeta."
+           data-en="I built an assistant on Telegram that talks with people interested in my English-certification prep courses, answers their questions and hands me qualified leads — day and night, from a card-sized computer.">Construí un asistente en Telegram que conversa con los interesados en mis cursos de preparación para certificaciones de inglés, resuelve sus dudas y me entrega prospectos calificados — día y noche, desde una computadora del tamaño de una tarjeta.</p>
+        <p class="result"><b data-es="Resultado:" data-en="Result:">Resultado:</b> <span class="hl" data-es="ningún interesado se queda sin respuesta, a ninguna hora." data-en="no prospect ever goes unanswered, at any hour.">ningún interesado se queda sin respuesta, a ninguna hora.</span></p>
+        <details class="more">
+          <summary data-es="Saber más" data-en="Learn more">Saber más</summary>
+          <div class="moretext">
+            <p data-es="Funciona con «agentes de IA»: programas que trabajan solos hacia un objetivo, sin que nadie los supervise a cada paso. Corren en una Raspberry Pi — una computadora de bajo costo que armé yo mismo — así que el sistema completo cuesta menos que un teléfono."
+               data-en="It runs on “AI agents”: programs that work on their own toward a goal, without step-by-step supervision. They run on a Raspberry Pi — a low-cost computer I assembled myself — so the whole system costs less than a phone.">Funciona con «agentes de IA»: programas que trabajan solos hacia un objetivo, sin que nadie los supervise a cada paso. Corren en una Raspberry Pi — una computadora de bajo costo que armé yo mismo — así que el sistema completo cuesta menos que un teléfono.</p>
+          </div>
+        </details>
+      </article>
+
+      <article class="card">
+        <h3 class="prob" data-es="Producir buenos materiales didácticos nos toma semanas."
+            data-en="Producing good teaching materials takes us weeks.">Producir buenos materiales didácticos nos toma semanas.</h3>
+        <p class="did" data-es="Con IA como asistente de producción — y mi criterio pedagógico como filtro — creo materiales con calidad editorial en horas: talleres completos, hojas de trabajo con claves, listas niveladas, aplicaciones de estudio."
+           data-en="With AI as a production assistant — and my pedagogical judgment as the filter — I create editorial-quality materials in hours: complete workshops, worksheets with answer keys, leveled word lists, study apps.">Con IA como asistente de producción — y mi criterio pedagógico como filtro — creo materiales con calidad editorial en horas: talleres completos, hojas de trabajo con claves, listas niveladas, aplicaciones de estudio.</p>
+        <p class="result"><b data-es="Resultado:" data-en="Result:">Resultado:</b> <span class="hl" data-es="de semanas a horas" data-en="from weeks to hours">de semanas a horas</span><span data-es=" — siempre con revisión de un docente con 18 años de experiencia." data-en=" — always reviewed by a teacher with 18 years of experience."> — siempre con revisión de un docente con 18 años de experiencia.</span></p>
+        <details class="more">
+          <summary data-es="Saber más" data-en="Learn more">Saber más</summary>
+          <div class="moretext">
+            <p data-es="Ejemplos reales: un taller de dos días de escritura para IELTS con planes de clase y claves de respuesta; una lista de 289 palabras en cuatro niveles para un concurso de deletreo de primaria; hojas de vocabulario académico; y una aplicación interactiva de estudio para el examen de admisión universitario con diez materias — puede probarla más abajo."
+               data-en="Real examples: a two-day IELTS writing workshop with lesson plans and answer keys; a 289-word, four-tier list for a primary-school spelling bee; academic vocabulary worksheets; and an interactive study app for the university entrance exam covering ten subjects — you can try it below.">Ejemplos reales: un taller de dos días de escritura para IELTS con planes de clase y claves de respuesta; una lista de 289 palabras en cuatro niveles para un concurso de deletreo de primaria; hojas de vocabulario académico; y una aplicación interactiva de estudio para el examen de admisión universitario con diez materias — puede probarla más abajo.</p>
+            <p data-es="Incluye también flujos de calificación asistida: la IA hace una primera revisión de los escritos con criterios de exámenes Cambridge, y el docente decide."
+               data-en="It also includes AI-assisted grading workflows: AI does a first pass over written work using Cambridge exam criteria, and the teacher decides.">Incluye también flujos de calificación asistida: la IA hace una primera revisión de los escritos con criterios de exámenes Cambridge, y el docente decide.</p>
+          </div>
+        </details>
+      </article>
+
+    </div>
+    <p class="note" style="margin-top:22px" data-es="— nada de esto es una promesa en PowerPoint: ya funciona. Y nadie me lo encargó — es iniciativa propia." data-en="— none of this is a PowerPoint promise: it already works. And nobody commissioned it — it's my own initiative.">— nada de esto es una promesa en PowerPoint: ya funciona. Y nadie me lo encargó — es iniciativa propia.</p>
+  </div>
+</section>
+
+<!-- ================= DEMO ================= -->
+<section id="demo">
+  <div class="wrap demo-grid">
+    <div class="demo-copy">
+      <p class="eyebrow" data-es="Demostración interactiva" data-en="Interactive demonstration">Demostración interactiva</p>
+      <h2 data-es="No se lo cuento: pruébelo." data-en="Don't take my word for it: try it.">No se lo cuento: pruébelo.</h2>
+      <p style="margin-top:12px;color:#33372f"
+         data-es="Así se siente un asistente construido sobre los materiales de una institución. Toque una pregunta y vea cómo respondería a un padre de familia, un alumno, un ejecutivo de ventas o un docente."
+         data-en="This is what an assistant built on an institution's materials feels like. Tap a question and see how it would answer a parent, a student, a sales executive or a teacher.">Así se siente un asistente construido sobre los materiales de una institución. Toque una pregunta y vea cómo respondería a un padre de familia, un alumno, un ejecutivo de ventas o un docente.</p>
+      <p class="note"
+         data-es="Esta demostración usa materiales del Colegio Álamos — el colegio ficticio que creé como laboratorio; la historia está más abajo — y respuestas preparadas. La versión real se construye con SUS materiales y conversa libremente."
+         data-en="This demo uses materials from Colegio Álamos — the fictional school I created as my laboratory; the full story is below — and prepared answers. The real version is built on YOUR materials and converses freely.">Esta demostración usa materiales del Colegio Álamos — el colegio ficticio que creé como laboratorio; la historia está más abajo — y respuestas preparadas. La versión real se construye con SUS materiales y conversa libremente.</p>
+    </div>
+
+    <div class="chat" aria-label="Demostración simulada de asistente">
+      <div class="chat-head">
+        <span data-es="Asistente del Colegio Álamos — serie «English Steps»" data-en="Colegio Álamos assistant — “English Steps” series">Asistente del Colegio Álamos — serie «English Steps»</span>
+        <span class="sim" data-es="Simulación" data-en="Simulation">Simulación</span>
+      </div>
+      <div class="chat-body" id="chatBody" aria-live="polite">
+        <div class="msg bot" data-es="¡Hola! Soy el asistente del Colegio Álamos. Puedo responder cualquier pregunta sobre nuestra serie de inglés, English Steps. ¿En qué le ayudo?"
+             data-en="Hello! I'm the Colegio Álamos assistant. I can answer any question about our English series, English Steps. How can I help?">¡Hola! Soy el asistente del Colegio Álamos. Puedo responder cualquier pregunta sobre nuestra serie de inglés, English Steps. ¿En qué le ayudo?</div>
+      </div>
+      <div class="chips" id="chips"></div>
+    </div>
+  </div>
+
+  <div class="wrap proof">
+    <h3 data-es="¿Prefiere ver los reales?" data-en="Would you rather see the real ones?">¿Prefiere ver los reales?</h3>
+    <p class="sub" data-es="Para probar estos asistentes en condiciones realistas hice algo poco usual: inventé un colegio entero. El Colegio Álamos no existe — pero tiene nombre, misión, metodología y materiales completos, todos creados por mí. Es mi laboratorio: un lugar donde un asistente puede equivocarse sin consecuencias antes de trabajar con un colegio real. Sus asistentes se construyeron a propósito con solo unas cuantas fuentes de licencia abierta (Creative Commons): si los prueba, notará límites — y esos límites son de las fuentes, no del método. Con los materiales completos de un colegio real, el mismo asistente sabría todo lo que su colegio sabe. Con lo aprendido ahí preparé una propuesta detallada de integración de IA para un colegio real."
+       data-en="To test these assistants in realistic conditions I did something unusual: I invented an entire school. Colegio Álamos does not exist — yet it has a name, a mission, a methodology and complete materials, all created by me. It is my laboratory: a place where an assistant can make mistakes without consequences before working with a real school. Its assistants were deliberately built on just a handful of openly licensed (Creative Commons) sources: if you try them, you will notice limits — and those limits belong to the sources, not the method. With a real school's complete materials, the same assistant would know everything your school knows. With what I learned there, I prepared a detailed AI integration proposal for a real school.">Para probar estos asistentes en condiciones realistas hice algo poco usual: inventé un colegio entero. El Colegio Álamos no existe — pero tiene nombre, misión, metodología y materiales completos, todos creados por mí. Es mi laboratorio: un lugar donde un asistente puede equivocarse sin consecuencias antes de trabajar con un colegio real. Sus asistentes se construyeron a propósito con solo unas cuantas fuentes de licencia abierta (Creative Commons): si los prueba, notará límites — y esos límites son de las fuentes, no del método. Con los materiales completos de un colegio real, el mismo asistente sabría todo lo que su colegio sabe. Con lo aprendido ahí preparé una propuesta detallada de integración de IA para un colegio real.</p>
+
+    <details class="more">
+      <summary data-es="Ver los asistentes (se abren en ChatGPT)" data-en="See the assistants (they open in ChatGPT)">Ver los asistentes (se abren en ChatGPT)</summary>
+      <div class="moretext">
+        <div class="proof-grid" style="margin-top:14px">
+          <a class="proof-card" href="https://chatgpt.com/g/g-6810757a4ee08191aafd991133200e7f-udp-educators-companion" target="_blank" rel="noopener">
+            <b>UDP Educators' Companion</b>
+            <span data-es="Propuesta desarrollada por cuenta propia: un asistente para docentes sobre materiales de University of Dayton Publishing — la misma idea de la demostración de arriba, aplicada a una editorial real." data-en="A proposal developed on my own: an assistant for teachers over University of Dayton Publishing materials — the same idea as the demo above, applied to a real publisher.">Propuesta desarrollada por cuenta propia: un asistente para docentes sobre materiales de University of Dayton Publishing — la misma idea de la demostración de arriba, aplicada a una editorial real.</span>
+            <em data-es="Abrir en ChatGPT ↗" data-en="Open in ChatGPT ↗">Abrir en ChatGPT ↗</em>
+          </a>
+          <a class="proof-card" href="https://chatgpt.com/g/g-6a458096e72481919edc5a02e81770c3-ih-qc-exam-course" target="_blank" rel="noopener">
+            <b>IH QC Exam Course</b>
+            <span data-es="Propuesta desarrollada por cuenta propia para los Círculos de Calidad (Quality Circles) de International House: un asistente de apoyo al curso de preparación de exámenes." data-en="A proposal developed on my own for International House's Quality Circles: an assistant supporting the exam preparation course.">Propuesta desarrollada por cuenta propia para los Círculos de Calidad (Quality Circles) de International House: un asistente de apoyo al curso de preparación de exámenes.</span>
+            <em data-es="Abrir en ChatGPT ↗" data-en="Open in ChatGPT ↗">Abrir en ChatGPT ↗</em>
+          </a>
+          <a class="proof-card" href="https://chatgpt.com/g/g-686e7e2c9e0c819187179ccd14dee0a1-english-ai-assistant" target="_blank" rel="noopener">
+            <b data-es="English AI Assistant · Laboratorio Álamos" data-en="English AI Assistant · Álamos laboratory">English AI Assistant · Laboratorio Álamos</b>
+            <span data-es="Experimento del colegio ficticio: el asistente del departamento de inglés del Colegio Álamos, construido solo con unas cuantas fuentes Creative Commons. Sus límites son deliberados — son los de un laboratorio, no los de una versión con los materiales reales de un colegio." data-en="An experiment from the fictional school: the English-department assistant of Colegio Álamos, built on just a few Creative Commons sources. Its limits are deliberate — they are a laboratory's limits, not those of a version built on a school's real materials.">Experimento del colegio ficticio: el asistente del departamento de inglés del Colegio Álamos, construido solo con unas cuantas fuentes Creative Commons. Sus límites son deliberados — son los de un laboratorio, no los de una versión con los materiales reales de un colegio.</span>
+            <em data-es="Abrir en ChatGPT ↗" data-en="Open in ChatGPT ↗">Abrir en ChatGPT ↗</em>
+          </a>
+          <a class="proof-card" href="https://chatgpt.com/g/g-68b06cdb1e448191a7bdf033dc977222-asistente-ai-de-historia-universal" target="_blank" rel="noopener">
+            <b data-es="Asistente AI de Historia Universal · Laboratorio Álamos" data-en="World History AI Assistant · Álamos laboratory">Asistente AI de Historia Universal · Laboratorio Álamos</b>
+            <span data-es="El mismo experimento aplicado a otra asignatura del colegio ficticio: un asistente de historia universal para estudiantes, también construido con fuentes abiertas limitadas." data-en="The same experiment applied to another subject of the fictional school: a world-history assistant for students, also built on a limited set of open sources.">El mismo experimento aplicado a otra asignatura del colegio ficticio: un asistente de historia universal para estudiantes, también construido con fuentes abiertas limitadas.</span>
+            <em data-es="Abrir en ChatGPT ↗" data-en="Open in ChatGPT ↗">Abrir en ChatGPT ↗</em>
+          </a>
+        </div>
+        <p style="font-size:13px;color:var(--muted);margin-top:10px" data-es="Puede requerir una cuenta gratuita de ChatGPT." data-en="A free ChatGPT account may be required.">Puede requerir una cuenta gratuita de ChatGPT.</p>
+      </div>
+    </details>
+    <p class="note" style="margin-top:16px" data-es="— un colegio que no existe, pero funciona. Así se prueba antes de prometer." data-en="— a school that doesn't exist, yet works. That's how you test before you promise.">— un colegio que no existe, pero funciona. Así se prueba antes de prometer.</p>
+
+    <h3 style="margin-top:38px" data-es="Y dos proyectos completos que puede usar ahora mismo" data-en="And two complete projects you can use right now">Y dos proyectos completos que puede usar ahora mismo</h3>
+    <p class="sub" data-es="No solo asistentes: también construyo y publico aplicaciones y sitios completos. Abra cualquiera de los dos y úselo — funcionan hoy." data-en="Not only assistants: I also build and publish complete applications and websites. Open either one and use it — they work today.">No solo asistentes: también construyo y publico aplicaciones y sitios completos. Abra cualquiera de los dos y úselo — funcionan hoy.</p>
+    <div class="proof-grid two">
+      <a class="proof-card" href="https://tavq7.github.io/preparacion-examen-universitario-humanidades/" target="_blank" rel="noopener">
+        <b data-es="App de preparación para el examen de admisión universitario" data-en="University entrance-exam prep app">App de preparación para el examen de admisión universitario</b>
+        <span data-es="Aplicación interactiva de estudio con diez materias: plan diario, reactivos de práctica y estadísticas de avance — y cada error se convierte automáticamente en una tarjeta de repaso." data-en="An interactive study app covering ten subjects: daily plan, practice questions and progress statistics — and every mistake automatically becomes a review flashcard.">Aplicación interactiva de estudio con diez materias: plan diario, reactivos de práctica y estadísticas de avance — y cada error se convierte automáticamente en una tarjeta de repaso.</span>
+        <em data-es="Abrir la aplicación ↗" data-en="Open the app ↗">Abrir la aplicación ↗</em>
+      </a>
+      <a class="proof-card" href="https://tavq7.github.io/amianto-defensorias/" target="_blank" rel="noopener">
+        <b>Defensorías y amianto en España</b>
+        <span data-es="Investigación independiente: cómo atendieron las defensorías del pueblo el problema del amianto entre 2024 y 2026. Documentos oficiales organizados en un sitio interactivo con filtros, líneas de tiempo, comparativas, enlaces a las fuentes y exportación a CSV." data-en="Independent research: how Spain's ombudsman institutions addressed asbestos-related issues between 2024 and 2026. Official documents organized into an interactive site with filters, timelines, comparative views, source links and CSV export.">Investigación independiente: cómo atendieron las defensorías del pueblo el problema del amianto entre 2024 y 2026. Documentos oficiales organizados en un sitio interactivo con filtros, líneas de tiempo, comparativas, enlaces a las fuentes y exportación a CSV.</span>
+        <em data-es="Abrir el sitio ↗" data-en="Open the site ↗">Abrir el sitio ↗</em>
+      </a>
+    </div>
+    <p class="note" style="margin-top:16px" data-es="— el sitio del amianto fue el primero que publiqué en mi vida. Así se aprende: publicando." data-en="— the asbestos site was the first I ever published. That's how you learn: by shipping.">— el sitio del amianto fue el primero que publiqué en mi vida. Así se aprende: publicando.</p>
+  </div>
+</section>
+
+<!-- ================= SECTORS ================= -->
+<section id="sectors">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow" data-es="Para su sector" data-en="For your sector">Para su sector</p>
+      <h2 data-es="Lo mismo, traducido a su realidad" data-en="The same capability, translated to your reality">Lo mismo, traducido a su realidad</h2>
+    </div>
+    <div class="sector-grid">
+
+      <article class="sector">
+        <h3 data-es="Editoriales educativas" data-en="Educational publishers">Editoriales educativas</h3>
+        <p class="for" data-es="Para editoriales como SM, UDP y otros sellos de ELT" data-en="For publishers like SM, UDP and other ELT imprints">Para editoriales como SM, UDP y otros sellos de ELT</p>
+        <ul>
+          <li data-es="Un asistente sobre su catálogo que atiende a docentes, alumnos, padres y ejecutivos de ventas" data-en="An assistant over your catalog serving teachers, students, parents and sales executives">Un asistente sobre su catálogo que atiende a docentes, alumnos, padres y ejecutivos de ventas</li>
+          <li data-es="Capacitación docente como valor agregado en la adopción de sus series" data-en="Teacher training as added value when schools adopt your series">Capacitación docente como valor agregado en la adopción de sus series</li>
+          <li data-es="Producción de materiales complementarios asistida con IA, con criterio pedagógico" data-en="AI-assisted production of supplementary materials, with pedagogical judgment">Producción de materiales complementarios asistida con IA, con criterio pedagógico</li>
+          <li data-es="Un traductor interno entre sus equipos editoriales y los técnicos" data-en="An in-house translator between your editorial and technical teams">Un traductor interno entre sus equipos editoriales y los técnicos</li>
+        </ul>
+      </article>
+
+      <article class="sector">
+        <h3 data-es="Escuelas de idiomas" data-en="Language schools">Escuelas de idiomas</h3>
+        <p class="for" data-es="Para escuelas como International House" data-en="For schools like International House">Para escuelas como International House</p>
+        <ul>
+          <li data-es="Seminarios prácticos de IA para su planta docente, de 1 hora a 2 días" data-en="Hands-on AI seminars for your teaching staff, from 1 hour to 2 days">Seminarios prácticos de IA para su planta docente, de 1 hora a 2 días</li>
+          <li data-es="Un asistente que atiende y califica a los interesados a cualquier hora" data-en="An assistant that answers and qualifies prospects at any hour">Un asistente que atiende y califica a los interesados a cualquier hora</li>
+          <li data-es="Flujos de calificación de exámenes asistida, revisada por docentes" data-en="AI-assisted exam grading workflows, reviewed by teachers">Flujos de calificación de exámenes asistida, revisada por docentes</li>
+          <li data-es="Herramientas de práctica a la medida para sus cursos y exámenes" data-en="Custom practice tools for your courses and exams">Herramientas de práctica a la medida para sus cursos y exámenes</li>
+        </ul>
+      </article>
+
+    </div>
+    <p class="note" style="margin-top:22px" data-es="— ¿su sector no aparece? Pregúnteme: traducir es justamente mi oficio." data-en="— your sector isn't here? Ask me: translating is exactly my trade.">— ¿su sector no aparece? Pregúnteme: traducir es justamente mi oficio.</p>
+  </div>
+</section>
+
+<!-- ================= SEMINARS ================= -->
+<section id="seminars">
+  <div class="wrap split">
+    <div>
+      <p class="eyebrow" data-es="Lo inmediato: seminarios" data-en="The immediate step: seminars">Lo inmediato: seminarios</p>
+      <h2 style="margin-bottom:14px" data-es="Lo que sus docentes se llevan de un seminario" data-en="What your teachers take away from a seminar">Lo que sus docentes se llevan de un seminario</h2>
+      <p style="color:#33372f;margin-bottom:8px"
+         data-es="Nada de teoría abstracta. Cada sesión es práctica: los docentes trabajan con sus propias clases y salen con herramientas configuradas y funcionando."
+         data-en="No abstract theory. Every session is hands-on: teachers work with their own lessons and leave with tools configured and working.">Nada de teoría abstracta. Cada sesión es práctica: los docentes trabajan con sus propias clases y salen con herramientas configuradas y funcionando.</p>
+      <ol class="topics">
+        <li data-es="Pedirle bien a la IA: un método que sirve en cualquier herramienta" data-en="Asking AI well: a method that works in any tool">Pedirle bien a la IA: un método que sirve en cualquier herramienta</li>
+        <li data-es="Guías de estudio y pódcast a partir de sus documentos — NotebookLM" data-en="Study guides and podcasts from their own documents — NotebookLM">Guías de estudio y pódcast a partir de sus documentos — NotebookLM</li>
+        <li data-es="Un asistente de enseñanza permanente — proyectos de ChatGPT o Claude" data-en="A permanent teaching assistant — ChatGPT or Claude projects">Un asistente de enseñanza permanente — proyectos de ChatGPT o Claude</li>
+        <li data-es="Investigación con fuentes verificables, en minutos — Deep Research" data-en="Research with verifiable sources, in minutes — Deep Research">Investigación con fuentes verificables, en minutos — Deep Research</li>
+        <li data-es="IA dentro de las herramientas de siempre — Gemini en Google Workspace" data-en="AI inside the everyday tools — Gemini in Google Workspace">IA dentro de las herramientas de siempre — Gemini en Google Workspace</li>
+        <li data-es="Criterio: qué revisar, qué no delegar, cómo verificar" data-en="Judgment: what to review, what not to delegate, how to verify">Criterio: qué revisar, qué no delegar, cómo verificar</li>
+      </ol>
+      <p class="note" style="margin-top:16px" data-es="— los docentes no necesitan otra conferencia: necesitan salir con algo funcionando." data-en="— teachers don't need another lecture: they need to leave with something working.">— los docentes no necesitan otra conferencia: necesitan salir con algo funcionando.</p>
+    </div>
+    <div class="board">
+      <h3 data-es="Más allá del seminario" data-en="Beyond the seminar">Más allá del seminario</h3>
+      <p data-es="Los talleres son la puerta de entrada. Lo que realmente ofrezco es acompañamiento en el proceso de integración de IA: identificar dónde aporta valor en su operación, construir los primeros prototipos, capacitar a los equipos y servir de puente entre las áreas educativas y las técnicas."
+         data-en="Workshops are the entry point. What I really offer is accompaniment through the AI integration process: identifying where it adds value in your operation, building the first prototypes, training the teams, and serving as the bridge between the educational and technical areas.">Los talleres son la puerta de entrada. Lo que realmente ofrezco es acompañamiento en el proceso de integración de IA: identificar dónde aporta valor en su operación, construir los primeros prototipos, capacitar a los equipos y servir de puente entre las áreas educativas y las técnicas.</p>
+      <p class="note" data-es="— la tecnología cambia cada mes; el criterio pedagógico, no." data-en="— the technology changes every month; pedagogical judgment doesn't.">— la tecnología cambia cada mes; el criterio pedagógico, no.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= TRANSFER ================= -->
+<section id="transfer">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow" data-es="Aprendido sobre la marcha" data-en="Learned on the go">Aprendido sobre la marcha</p>
+      <h2 data-es="Habilidades que no tenía — hasta que las necesité" data-en="Skills I didn't have — until I needed them">Habilidades que no tenía — hasta que las necesité</h2>
+      <p data-es="Ninguna de estas habilidades venía en mi formación docente: las aprendí sobre la marcha, usando la IA como profesora particular, porque un problema real lo exigía. A la izquierda, lo que hice; a la derecha, lo que eso puede hacer por su organización."
+         data-en="None of these skills came with my teacher training: I learned them on the go, using AI as my private tutor, because a real problem demanded it. On the left, what I did; on the right, what that can do for your organization.">Ninguna de estas habilidades venía en mi formación docente: las aprendí sobre la marcha, usando la IA como profesora particular, porque un problema real lo exigía. A la izquierda, lo que hice; a la derecha, lo que eso puede hacer por su organización.</p>
+    </div>
+
+    <div class="transfer-row">
+      <div class="story">
+        <h3 data-es="60 GB de archivos desordenados, convertidos y catalogados" data-en="60 GB of disorganized files, converted and cataloged">60 GB de archivos desordenados, convertidos y catalogados</h3>
+        <p data-es="Años de música, imágenes y metadatos en formatos inconsistentes tenían que funcionar en un reproductor antiguo. Aprendí a usar la Terminal — la línea de comandos — sobre la marcha, y convertí toda la biblioteca protegiendo siempre los originales."
+           data-en="Years of music, images and metadata in inconsistent formats had to work on an older player. I learned to use the Terminal — the command line — on the go, and converted the entire library while always protecting the originals.">Años de música, imágenes y metadatos en formatos inconsistentes tenían que funcionar en un reproductor antiguo. Aprendí a usar la Terminal — la línea de comandos — sobre la marcha, y convertí toda la biblioteca protegiendo siempre los originales.</p>
+        <details class="more">
+          <summary data-es="Saber más" data-en="Learn more">Saber más</summary>
+          <div class="moretext">
+            <p data-es="Para las portadas de álbum faltantes dirigí a un agente de IA que las buscó en la web por su cuenta — usando únicamente imágenes con licencia Creative Commons, es decir, imágenes que su autor permite reutilizar."
+               data-en="For the missing album artwork I directed an AI agent that searched the web on its own — using only Creative Commons–licensed images, that is, images their authors allow to be reused.">Para las portadas de álbum faltantes dirigí a un agente de IA que las buscó en la web por su cuenta — usando únicamente imágenes con licencia Creative Commons, es decir, imágenes que su autor permite reutilizar.</p>
+          </div>
+        </details>
+      </div>
+      <div class="transfer-arrow" aria-hidden="true">→</div>
+      <div class="transfer-mean">
+        <span class="lbl" data-es="Para su organización" data-en="For your organization">Para su organización</span>
+        <p data-es="Años de archivos acumulados — en cualquier formato — convertidos en algo ordenado y utilizable, sin arriesgar los originales. Y recopilación automática de información respetando siempre licencias y derechos de autor."
+           data-en="Years of accumulated files — in any format — turned into something organized and usable, without risking the originals. And automated information gathering that always respects licenses and copyright.">Años de archivos acumulados — en cualquier formato — convertidos en algo ordenado y utilizable, sin arriesgar los originales. Y recopilación automática de información respetando siempre licencias y derechos de autor.</p>
+      </div>
+    </div>
+
+    <div class="transfer-row">
+      <div class="story">
+        <h3 data-es="Un equipo de agentes de IA que trabaja mientras duermo" data-en="A team of AI agents that works while I sleep">Un equipo de agentes de IA que trabaja mientras duermo</h3>
+        <p data-es="Diseñé un sistema de varios agentes — programas que trabajan solos hacia un objetivo. Uno recorre la web buscando posibles estudiantes de certificaciones de inglés; otros conversan con ellos, los orientan y les dan seguimiento. Día y noche."
+           data-en="I designed a multi-agent system — programs that work on their own toward a goal. One scans the web for potential English-certification students; others converse with them, guide them and follow up. Day and night.">Diseñé un sistema de varios agentes — programas que trabajan solos hacia un objetivo. Uno recorre la web buscando posibles estudiantes de certificaciones de inglés; otros conversan con ellos, los orientan y les dan seguimiento. Día y noche.</p>
+        <details class="more">
+          <summary data-es="Saber más" data-en="Learn more">Saber más</summary>
+          <div class="moretext">
+            <p data-es="Fui adoptante temprano de OpenClaw, una plataforma para este tipo de agentes. Para hacerla funcionar, ensamblé y configuré yo mismo una Raspberry Pi 5 — una computadora del tamaño de una tarjeta — sin haberlo hecho nunca antes: armado, sistema operativo, acceso remoto y todo lo demás."
+               data-en="I was an early adopter of OpenClaw, a platform for this kind of agent. To run it, I assembled and configured a Raspberry Pi 5 myself — a card-sized computer — having never done it before: assembly, operating system, remote access and everything else.">Fui adoptante temprano de OpenClaw, una plataforma para este tipo de agentes. Para hacerla funcionar, ensamblé y configuré yo mismo una Raspberry Pi 5 — una computadora del tamaño de una tarjeta — sin haberlo hecho nunca antes: armado, sistema operativo, acceso remoto y todo lo demás.</p>
+          </div>
+        </details>
+        <p class="note rownote" data-es="— sí: todo esto corre en una computadora más chica que un cuaderno." data-en="— yes: all of this runs on a computer smaller than a notebook.">— sí: todo esto corre en una computadora más chica que un cuaderno.</p>
+      </div>
+      <div class="transfer-arrow" aria-hidden="true">→</div>
+      <div class="transfer-mean">
+        <span class="lbl" data-es="Para su organización" data-en="For your organization">Para su organización</span>
+        <p data-es="Un agente que explora la web sin descanso sirve en casi cualquier área: candidatos para una vacante, escuelas que buscan nuevos materiales, menciones de su marca, convocatorias y licitaciones. Puedo montarlo con equipo mínimo y probarlo con poco riesgo."
+           data-en="An agent that tirelessly explores the web is useful in almost any area: candidates for a vacancy, schools looking for new materials, mentions of your brand, calls and tenders. I can set it up on minimal equipment and pilot it at low risk.">Un agente que explora la web sin descanso sirve en casi cualquier área: candidatos para una vacante, escuelas que buscan nuevos materiales, menciones de su marca, convocatorias y licitaciones. Puedo montarlo con equipo mínimo y probarlo con poco riesgo.</p>
+      </div>
+    </div>
+
+    <div class="transfer-row">
+      <div class="story">
+        <h3 data-es="La constante: aprender lo que el problema exija" data-en="The constant: learning whatever the problem demands">La constante: aprender lo que el problema exija</h3>
+        <p data-es="Línea de comandos, ensamble de hardware, sistemas de agentes, generación de audio y video — nada de esto estaba en mi plan de estudios. El patrón es siempre el mismo: un problema real, la IA como profesora particular, y un resultado funcionando en días."
+           data-en="Command line, hardware assembly, agent systems, audio and video generation — none of this was in my curriculum. The pattern is always the same: a real problem, AI as a private tutor, and a working result within days.">Línea de comandos, ensamble de hardware, sistemas de agentes, generación de audio y video — nada de esto estaba en mi plan de estudios. El patrón es siempre el mismo: un problema real, la IA como profesora particular, y un resultado funcionando en días.</p>
+        <p class="note rownote" data-es="— lo que aprendo un martes, el miércoles ya está trabajando." data-en="— what I learn on a Tuesday is already on the job by Wednesday.">— lo que aprendo un martes, el miércoles ya está trabajando.</p>
+      </div>
+      <div class="transfer-arrow" aria-hidden="true">→</div>
+      <div class="transfer-mean">
+        <span class="lbl" data-es="Para su organización" data-en="For your organization">Para su organización</span>
+        <p data-es="Cuando su proyecto de IA necesite una habilidad que hoy no existe en su equipo, la aprendo. Es, quizá, la competencia más valiosa en IA — y es exactamente la que enseño a los docentes."
+           data-en="When your AI project needs a skill that doesn't yet exist on your team, I learn it. It may be the most valuable AI competency there is — and it is exactly what I teach teachers.">Cuando su proyecto de IA necesite una habilidad que hoy no existe en su equipo, la aprendo. Es, quizá, la competencia más valiosa en IA — y es exactamente la que enseño a los docentes.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ================= ABOUT ================= -->
+<section id="about">
+  <div class="wrap about-grid">
+    <div>
+      <p class="eyebrow" data-es="Sobre mí" data-en="About me">Sobre mí</p>
+      <h2 style="margin-bottom:16px" data-es="Docente primero, tecnólogo después" data-en="Teacher first, technologist second">Docente primero, tecnólogo después</h2>
+      <p data-es="Docente de inglés desde 2008, todos los niveles del A1 al C2. CELTA, Delta, formador de formadores, examinador oral. Especialidad: IELTS y escritura académica."
+         data-en="English teacher since 2008, every level from A1 to C2. CELTA, Delta, trainer of trainers, oral examiner. Specialty: IELTS and academic writing.">Docente de inglés desde 2008, todos los niveles del A1 al C2. CELTA, Delta, formador de formadores, examinador oral. Especialidad: IELTS y escritura académica.</p>
+      <p data-es="Desde hace tres años dedico parte seria de mi tiempo a un solo problema: hacer que la IA sirva de verdad en contextos educativos. No como espectador — construyendo. Todo lo que aparece en esta página lo hice yo, con IA como colaboradora y mi experiencia docente como control de calidad."
+         data-en="For the past three years I have devoted serious time to a single problem: making AI genuinely useful in educational contexts. Not as a spectator — as a builder. Everything on this page I made myself, with AI as a collaborator and my teaching experience as quality control.">Desde hace tres años dedico parte seria de mi tiempo a un solo problema: hacer que la IA sirva de verdad en contextos educativos. No como espectador — construyendo. Todo lo que aparece en esta página lo hice yo, con IA como colaboradora y mi experiencia docente como control de calidad.</p>
+      <p data-es="Ese es el perfil que las organizaciones educativas rara vez encuentran: alguien que entiende el aula y la sala de juntas."
+         data-en="That is the profile education organizations rarely find: someone who understands both the classroom and the boardroom.">Ese es el perfil que las organizaciones educativas rara vez encuentran: alguien que entiende el aula y la sala de juntas.</p>
+      <p class="note" data-es="— 18 años frente a grupo enseñan a explicar cualquier cosa a cualquier persona." data-en="— 18 years in front of a class teach you to explain anything to anyone.">— 18 años frente a grupo enseñan a explicar cualquier cosa a cualquier persona.</p>
+    </div>
+    <div>
+      <div class="aside-note">
+        <p data-es="Esta página también es una muestra: fue construida en colaboración con IA, bajo mi dirección, en una sola sesión de trabajo."
+           data-en="This page is itself a sample: it was built in collaboration with AI, under my direction, in a single working session.">Esta página también es una muestra: fue construida en colaboración con IA, bajo mi dirección, en una sola sesión de trabajo.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CONTACT ================= -->
+<section id="contact">
+  <div class="wrap">
+    <p class="eyebrow" data-es="Siguiente paso" data-en="Next step">Siguiente paso</p>
+    <h2 data-es="Invíteme a una conversación de 30 minutos" data-en="Invite me to a 30-minute conversation">Invíteme a una conversación de 30 minutos</h2>
+    <p data-es="Cuénteme cuál es el problema que más tiempo le roba a su equipo. Le diré, con honestidad, si la IA puede ayudar — y le mostraré cómo se vería."
+       data-en="Tell me which problem steals the most time from your team. I will tell you, honestly, whether AI can help — and show you what it would look like.">Cuénteme cuál es el problema que más tiempo le roba a su equipo. Le diré, con honestidad, si la IA puede ayudar — y le mostraré cómo se vería.</p>
+    <a class="btn primary" href="mailto:octavio.tesl@gmail.com" data-es="Escríbame: octavio.tesl@gmail.com" data-en="Write to me: octavio.tesl@gmail.com">Escríbame: octavio.tesl@gmail.com</a>
+    <p class="note" style="margin-top:18px" data-es="— 30 minutos, cero compromiso. El café corre por su cuenta." data-en="— 30 minutes, zero commitment. Coffee's on you.">— 30 minutos, cero compromiso. El café corre por su cuenta.</p>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <span data-es="Octavio · Ciudad de México · seminarios y consultoría de IA para educación"
+          data-en="Octavio · Mexico City · AI seminars and consulting for education">Octavio · Ciudad de México · seminarios y consultoría de IA para educación</span>
+    <span data-es="Hecho a mano, con IA." data-en="Handmade, with AI.">Hecho a mano, con IA.</span>
+  </div>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+  var lang = "es";
+  var langBtn = document.getElementById("langBtn");
+  var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  function applyLang(){
+    document.documentElement.lang = lang;
+    document.querySelectorAll("[data-es]").forEach(function(el){
+      var t = el.getAttribute("data-" + lang);
+      if (t !== null) el.innerHTML = t;
+    });
+    langBtn.textContent = lang === "es" ? "EN" : "ES";
+    langBtn.setAttribute("aria-label", lang === "es" ? "Switch to English" : "Cambiar a español");
+    renderChips();
+  }
+
+  langBtn.addEventListener("click", function(){
+    lang = lang === "es" ? "en" : "es";
+    applyLang();
+  });
+
+  /* In-page anchors: capture-phase delegation so navigation is intercepted
+     before the browser (or a sandboxed preview) tries to change the URL. */
+  document.addEventListener("click", function(e){
+    var a = e.target && e.target.closest ? e.target.closest('a[href^="#"]') : null;
+    if (!a) return;
+    var target = document.querySelector(a.getAttribute("href"));
+    if (target){
+      e.preventDefault();
+      e.stopPropagation();
+      target.scrollIntoView(reduced ? {block:"start"} : {behavior:"smooth", block:"start"});
+    }
+  }, true);
+
+  /* ------------ simulated assistant demo ------------ */
+  var QA = [
+    {
+      q: {
+        es: "Mi hija va en 3° de primaria, ¿qué libro le corresponde?",
+        en: "My daughter is in 3rd grade — which book is hers?"
+      },
+      a: {
+        es: "Para 3° de primaria corresponde <b>English Steps 3</b>. Trabaja el nivel A1+ del Marco Común Europeo, con 8 unidades temáticas y un proyecto por unidad. Si su hija viene de otra serie, la unidad 1 incluye un repaso diagnóstico para nivelarla sin frustración.",
+        en: "For 3rd grade the right book is <b>English Steps 3</b>. It works at CEFR level A1+, with 8 thematic units and one project per unit. If your daughter is coming from another series, Unit 1 includes a diagnostic review to bring her up to speed without frustration."
+      }
+    },
+    {
+      q: {
+        es: "Soy alumno: ¿qué debo repasar para el examen de la unidad 3?",
+        en: "I'm a student: what should I review for the Unit 3 test?"
+      },
+      a: {
+        es: "Para el examen de la unidad 3 repasa: el vocabulario de las páginas 34–35, el pasado simple (página 38) y la lectura «A Day at the Museum». En la página 41 hay una autoevaluación con respuestas para que practiques antes.",
+        en: "For the Unit 3 test, review: the vocabulary on pages 34–35, the simple past (page 38) and the reading “A Day at the Museum”. Page 41 has a self-check with answers so you can practice first."
+      }
+    },
+    {
+      q: {
+        es: "¿La serie está alineada al programa oficial de la SEP?",
+        en: "Is the series aligned with the official national curriculum?"
+      },
+      a: {
+        es: "Sí. Cada unidad de la serie indica los aprendizajes esperados que cubre y la guía del docente incluye una tabla de correlación completa con el programa oficial, lista para presentarse en supervisiones escolares.",
+        en: "Yes. Each unit states the expected learning outcomes it covers, and the teacher's guide includes a complete correlation table with the official curriculum, ready to present in school inspections."
+      }
+    },
+    {
+      q: {
+        es: "Soy docente: ¿cómo asigno la tarea de la unidad 4?",
+        en: "I'm a teacher: how do I assign the Unit 4 homework?"
+      },
+      a: {
+        es: "La tarea de la unidad 4 está en las páginas 52–53 del cuaderno de actividades. Sugerencia de la guía: asigne solo la sección A entre semana (15 min) y reserve la sección B, que es colaborativa, para trabajarla en clase el viernes.",
+        en: "Unit 4 homework is on pages 52–53 of the activity book. The guide suggests assigning only Section A during the week (15 min) and saving Section B, which is collaborative, for Friday's class."
+      }
+    },
+    {
+      q: {
+        es: "Soy ejecutivo de ventas: ¿qué diferencia a esta serie de la competencia?",
+        en: "I'm a sales executive: what sets this series apart from competitors?"
+      },
+      a: {
+        es: "Tres puntos que puede destacar: (1) cada unidad cierra con un proyecto evaluable, no solo ejercicios; (2) la guía del docente reduce la preparación a menos de 10 minutos por clase; y (3) incluye evaluaciones diagnósticas listas para imprimir. Todo esto viene directamente del material oficial — puede citarlo con confianza.",
+        en: "Three points you can highlight: (1) every unit closes with an assessable project, not just exercises; (2) the teacher's guide cuts preparation to under 10 minutes per class; and (3) it includes print-ready diagnostic assessments. All of this comes directly from the official material — you can quote it with confidence."
+      }
+    }
+  ];
+
+  var chatBody = document.getElementById("chatBody");
+  var chipsBox = document.getElementById("chips");
+  var used = [];
+
+  function renderChips(){
+    chipsBox.innerHTML = "";
+    QA.forEach(function(item, i){
+      var b = document.createElement("button");
+      b.type = "button";
+      b.className = "chip";
+      b.textContent = item.q[lang];
+      b.disabled = used.indexOf(i) !== -1;
+      b.addEventListener("click", function(){ ask(i); });
+      chipsBox.appendChild(b);
+    });
+  }
+
+  function scrollChat(){ chatBody.scrollTop = chatBody.scrollHeight; }
+
+  function ask(i){
+    if (used.indexOf(i) !== -1) return;
+    used.push(i);
+    var u = document.createElement("div");
+    u.className = "msg user";
+    u.textContent = QA[i].q[lang];
+    chatBody.appendChild(u);
+    renderChips();
+    scrollChat();
+
+    var bot = document.createElement("div");
+    bot.className = "msg bot";
+    chatBody.appendChild(bot);
+    var full = QA[i].a[lang];
+
+    if (reduced){
+      bot.innerHTML = full;
+      scrollChat();
+      return;
+    }
+    /* typewriter over plain text; swap in HTML at the end so <b> renders */
+    var plain = full.replace(/<[^>]+>/g, "");
+    var n = 0;
+    bot.textContent = "…";
+    setTimeout(function type(){
+      n += 3;
+      bot.textContent = plain.slice(0, n);
+      scrollChat();
+      if (n < plain.length){ setTimeout(type, 16); }
+      else { bot.innerHTML = full; }
+    }, 450);
+  }
+
+  applyLang();
+})();
+</script>
+</body>
+</html>
