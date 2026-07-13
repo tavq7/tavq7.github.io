@@ -100,7 +100,9 @@ img{max-width:100%}
   content:"";position:absolute;inset:0 0 auto 0;height:6px;border-radius:var(--radius) var(--radius) 0 0;
   background:var(--green);
 }
-.cred-card h3{font-size:16px;margin-bottom:14px;padding-top:6px}
+.cred-head{display:flex;align-items:center;gap:14px;margin-bottom:14px;padding-top:6px}
+.cred-photo{width:64px;height:64px;border-radius:50%;object-fit:cover;border:2px solid var(--green);flex-shrink:0}
+.cred-card h3{font-size:16px;margin:0}
 .cred-list{list-style:none}
 .cred-list li{
   padding:9px 0;border-bottom:1px dashed var(--line);font-size:14.5px;display:flex;gap:10px;align-items:baseline;
@@ -316,7 +318,10 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
     </div>
 
     <div class="cred-card" aria-label="Credenciales">
-      <h3 data-es="Ficha del facilitador" data-en="Facilitator profile">Ficha del facilitador</h3>
+      <div class="cred-head">
+        <img class="cred-photo" src="foto-octavio.jpg" alt="Octavio" width="64" height="64">
+        <h3 data-es="Ficha del facilitador" data-en="Facilitator profile">Ficha del facilitador</h3>
+      </div>
       <ul class="cred-list">
         <li><b data-es="Experiencia" data-en="Experience">Experiencia</b><span data-es="Docente de inglés desde 2008, niveles A1–C2" data-en="English teacher since 2008, levels A1–C2">Docente de inglés desde 2008, niveles A1–C2</span></li>
         <li><b data-es="Certificaciones" data-en="Credentials">Certificaciones</b><span data-es="CELTA · Delta · CAM · TKT · Train the Trainer" data-en="CELTA · Delta · CAM · TKT · Train the Trainer">CELTA · Delta · CAM · TKT · Train the Trainer</span></li>
