@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="es-MX"><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Del texto a la inferencia · Octavio Ramírez</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#f6f3eb;color:#1e312d;font:1.05rem/1.6 system-ui,sans-serif}main{max-width:44rem;margin:auto;padding:clamp(1.2rem,5vw,3.5rem)}h1{font:normal clamp(2.35rem,8vw,4rem)/1.04 Georgia,serif;margin:.25em 0}h2{font:normal 1.55rem Georgia,serif}header,section{margin-bottom:2rem}blockquote{border-left:4px solid #337159;padding:.25rem 1rem;margin:1rem 0;background:#fffdf7}fieldset{border:0;padding:0}legend{font-weight:700}label{display:block;margin:.55rem 0;padding:.5rem;background:#fffdf7;border:1px solid #b4c4b4;border-radius:.35rem}button{font:inherit;font-weight:600;color:white;background:#245543;border:0;padding:.55rem 1rem;border-radius:.35rem;cursor:pointer}a{color:#245543}output{display:block;margin:.65rem 0}footer{border-top:1px solid #b4c4b4;padding-top:1rem}
+</style><main><header><small>Preparación universitaria · Muestra interactiva</small><h1>Del texto a la inferencia</h1><p>Lee cada fragmento y elige la conclusión que mejor puedes defender con sus palabras.</p></header>
+<section><h2>El último ensayo</h2><blockquote>Cuando terminó el ensayo, Inés dejó su atril junto a la puerta. «Mañana lo quiero cerca de la salida», dijo. En el bolsillo guardaba un boleto para el tren de las seis.</blockquote><form><fieldset><legend>¿Qué sugieren los detalles del atril y del boleto?</legend>
+<label><input required type="radio" name="answer" value="0"> Inés quiere poder salir pronto.</label><label><input type="radio" name="answer" value="1"> Inés decidió abandonar la orquesta.</label><label><input type="radio" name="answer" value="2"> El ensayo termina a las seis.</label></fieldset><button>Comprobar</button><output aria-live="polite"></output></form></section>
+<section><h2>La función del viernes</h2><blockquote>El jueves, la taquillera puso un letrero en la ventanilla: «Para el viernes solo quedan localidades de pie». Aun así, la fila siguió creciendo.</blockquote><form><fieldset><legend>¿Qué puedes inferir de la última oración?</legend><label><input required type="radio" name="answer" value="0"> Todas las personas de la fila compraron boleto.</label><label><input type="radio" name="answer" value="1"> La falta de asientos no acabó con el interés por la función.</label><label><input type="radio" name="answer" value="2"> La taquillera ofreció un descuento.</label></fieldset><button>Comprobar</button><output aria-live="polite"></output></form></section>
+<footer>Octavio Ramírez · <a href="https://github.com/tavq7/humanidades-portfolio">Acerca del proyecto</a></footer></main>
+<script>
+const feedback = [
+  ["Correcto. El lugar del atril y la hora del tren apuntan a una salida rápida.", "Revisa la escala de tu conclusión. El boleto explica una salida concreta. ¿Hay alguna señal de una decisión permanente?", "Las seis es la hora del tren. ¿Qué detalle aporta el texto sobre la hora de término del ensayo?"],
+  ["El texto describe una fila. No cuenta qué pasó después en la ventanilla. Inténtalo otra vez.", "Correcto. «Aun así» conecta la falta de asientos con una fila que sigue creciendo.", "El letrero habla de lugares disponibles. ¿Qué palabras del fragmento hablarían del precio?"]
+];
+document.querySelectorAll("form").forEach((form, index) => {
+  const output = form.querySelector("output");
+  form.addEventListener("change", () => { output.textContent = ""; });
+  form.addEventListener("submit", event => {
+    event.preventDefault();
+    output.textContent = feedback[index][form.elements.answer.value];
+  });
+});
+</script></html>
